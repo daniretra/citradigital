@@ -1,0 +1,40 @@
+import numpy as np
+
+# Inisialisasi variabel
+H = np.array([[1, 2, 1],   # Kernel (filter)
+              [0, 0, 0],
+              [-1, -2, -1]])
+
+# Ukuran kernel
+nFilterX, nFilterY = H.shape
+
+# Contoh gambar input (X) sebagai matriks
+X = np.array([[10, 10, 10, 10, 10],
+              [10, 20, 20, 20, 10],
+              [10, 20, 30, 20, 10],
+              [10, 20, 20, 20, 10],
+              [10, 10, 10, 10, 10]])
+
+# Ukuran gambar input
+ScaleWidth, ScaleHeight = X.shape
+
+# Inisialisasi gambar output (Y)
+Y = np.zeros((ScaleWidth, ScaleHeight))
+
+# Proses konvolusi
+for x in range(ScaleWidth):
+    for y in range(ScaleHeight):
+        z = 0
+        for k1 in range(nFilterX):
+            for k2 in range(nFilterY):
+                # Menghitung koordinat pixel di gambar input
+                ix = x + k1 - nFilterX // 2
+                iy = y + k2 - nFilterY // 2
+                # Cek batasan untuk menghindari indeks negatif
+                if 0 <= ix < ScaleWidth and 0 <= iy < ScaleHeight:
+                    z += H[k1, k2] * X[ix, iy]
+        Y[x, y] = z
+
+# Tampilkan hasil
+print("Gambar Output (Y):")
+print(Y)
